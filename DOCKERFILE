@@ -1,0 +1,29 @@
+FROM golang:1.10
+
+# Mount a volume containing your certificates and point the 
+# CERT and KEY environment variables to the location
+# Default location is /var/certs
+
+ENV "TARGET" "http://webapp:8080"
+ENV "CERT" "/var/certs/cert.crt"
+ENV "KEY" "/var/certs/key.key"
+ENV "UPGRADE_ADDR" ":80"
+ENV "SERVER_ADDR" ":443"
+ENV "STRIP_FORWARDED_FOR" "false"
+
+WORKDIR /go/src/app
+COPY main.go .
+
+RUN go get -d -v ./...
+RUN go install -v ./...
+
+EXPOSE 80
+EXPOSE 443
+
+CMD app \
+  -target ${TARGET} \
+  -cert ${CERT} \
+  -key ${KEY} \
+  -u ${UPGRADE_ADDR} \
+  -a ${SERVER_ADDR} \
+  -strip-forwarded-for ${STRIP_FORWARDED_FOR} 
