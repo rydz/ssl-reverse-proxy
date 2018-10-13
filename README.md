@@ -1,5 +1,24 @@
-# reverseproxy
+# ssl-reverse-proxy
 Simple HTTPs reverse proxy for an http backend server
+
+## Installing
+
+`go get -u github.com/rydz/ssl-reverse-proxy`
+
+
+## Example
+If this proxy is the first in your chain, you should enable the -strip-forwarded-for flag which will strip incoming `X-Forwarded-For` headers from the incoming requests.
+
+X-Forwarded-For headers allow servers behind proxies to know the origin IP address of the request.
+
+```sh
+ssl-reverse-proxy \
+  -target "http://localhost:8080" \
+  -strip-forwarded-for \
+  -cert "certificate.crt" \
+  -key "key.key" \
+```
+
 
 ## Flags
 
@@ -30,21 +49,20 @@ docker run \
 
 Environment variables
 
-specify server location to proxy to
 ### TARGET http://webapp:8080
+Location of target server
 
-Location of certificate file
 ### CERT /var/certs/cert.crt
+Location of certificate file
 
-Location of key file
 ### KEY /var/certs/key.key
+Location of key file
 
-Port to host upgrade server on.
 ### UPGRADE_ADDR :80
+Port to host upgrade server on.
 
-Port to host HTTPS server on
 ### SERVER_ADDR :443
-
 Port to host SSL server on
+
 ### STRIP_FORWARDED_FOR "false"
 Strip the list of IPs from incoming X-Forwarded-For headers to prevent spoofing
