@@ -29,6 +29,8 @@ ssl-reverse-proxy \
 | cert                | cert.crt | location of certificate file                             |
 | key                 | key.key  | location of key file                                     |
 | strip-forwarded-for | false    | strip existing forwarded for headers to prevent spoofing |
+| formatter           | text     | logrus formatted for logs, one of 'text' or 'json'       |
+| color               | false    | enable color in the text formatter                       |
 
 ## Docker
 
